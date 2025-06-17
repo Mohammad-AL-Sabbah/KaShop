@@ -7,7 +7,7 @@ function Categorys() {
   const [Categorys, setCategorys] = useState([]);
 
   const getCategorey = async () => {
-    const { data } = await axios.get(`http://mytshop.runasp.net/api/categories`);
+    const { data } = await axios.get(`${import.meta.env.VITE_BURL}/categories`);
     setCategorys(data);
   };
 
@@ -17,25 +17,39 @@ function Categorys() {
 
   return (
     <>
-      <Box width="100%" textAlign="center">
-        <h2>Categories || الأصناف</h2>
+      <Box width="100%" textAlign="center" sx={{ mt: 3, mb: 3 }}>
+        <Typography variant="h4" sx={{ color: "#1976d2", fontWeight: "bold", letterSpacing: 1 }}>
+          Categories || الأصناف
+        </Typography>
       </Box>
 
-      <Grid container spacing={2} className={Styles.cont}>
+      <Box className={Styles.cont}>
         {Categorys.map((item) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
-            <Card className={Styles.card}>
-              <CardContent>
-                <Typography component="h4">{item.name}</Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small">Details</Button>
-              </CardActions>
-            </Card>
-          </Grid>
+          <Card className={Styles.card} key={item.id} raised>
+            <CardContent>
+              <Typography
+                component="h4"
+                sx={{ fontWeight: '600', fontSize: '1.2rem', color: '#0d47a1', textAlign: 'center' }}
+              >
+                {item.name}
+              </Typography>
+            </CardContent>
+            <CardActions sx={{ justifyContent: 'center' }}>
+              <Button
+                size="small"
+                variant="contained"
+                sx={{
+                  color: 'white',
+                  borderColor: '#1976d2',
+                  fontWeight: 'bold',
+                }}
+              >
+                Details
+              </Button>
+            </CardActions>
+          </Card>
         ))}
-      </Grid>
-
+      </Box>
     </>
   );
 }

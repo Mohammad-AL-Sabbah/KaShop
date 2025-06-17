@@ -9,7 +9,8 @@ import Register from "./Pages/Register/Register";
 import VerifyBassword from "./Pages/VerifyBassword/VerifyBasswords";
 import ResetBassword from "./Pages/ResetBassword/Reset";
 import ProductId from "./Pages/ProductId/ProductId";
-
+import CheckOut from "./Pages/CheckOut/CheckOut";
+import ProtectedRouter from "./Components/ProtectedRouter/ProtectedRouter";
 const routes = createBrowserRouter([
     {
     path: '/',
@@ -23,12 +24,6 @@ const routes = createBrowserRouter([
         {
             path: '/shop',
             element: <Shop />
-        },
-        {
-            path: '/cart',
-            element: 
-            
-            <Cart />
         },
         {
             path: '/login',
@@ -52,8 +47,21 @@ const routes = createBrowserRouter([
         },
         {
             path: '/cart',
-            element: <Cart />
+            element:
+            <ProtectedRouter>
+            <Cart />
+            </ProtectedRouter>
+        },
+        {
+        path: '/checkout',
+        element: 
+        <ProtectedRouter>
+           <CheckOut />
+        </ProtectedRouter>
+
+      
         }
+  
 
     ]
 

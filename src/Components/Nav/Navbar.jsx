@@ -14,21 +14,28 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 import Cart from '../../Pages/Cart/Cart';
+import { Logout } from '@mui/icons-material';
 
-const pages = [
+const pagesGuest = [
   { label: 'Register', path: '/register' },
   { label: 'Login', path: '/login' },
-  { label: 'Reset Password', path: '/reset-password',},
-  { label: 'Cart', path: '/cart',},
-
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pagesAuth =  [
+    { label: 'Cart', path: '/cart',},
+]
 
+const settings = ['Profile', 'Account', 'Dashboard', 'Logout' ];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  const isLoggedIn = Boolean(localStorage.getItem('Usertoken'));
+
+  const handleLogout = () =>{
+    localStorage.removeItem('Usertoken');
+    window.location.href = '/login'; 
+  }
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -95,14 +102,25 @@ function Navbar() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-            {pages.map((page) => (
-  <MenuItem key={page.label} onClick={handleCloseNavMenu} component={Link} to={page.path}>
-    <Typography sx={{ textAlign: 'center' }}>{page.label}</Typography>
-  </MenuItem>
-))}
+              {(isLoggedIn ? pagesAuth : pagesGuest).map((page) => (
+                <MenuItem
+                  key={page.label} 
+                  onClick={handleCloseNavMenu} 
+                  component={Link} 
+                  to={page.path}
+                >
+                  <Typography sx={{ textAlign: 'center' }}>{page.label}</Typography>
+                </MenuItem>
+              ))}
+              {isLoggedIn && (
+                <MenuItem onClick={() => { handleCloseNavMenu(); handleLogout(); }}>
+                  <Typography sx={{ textAlign: 'center' }}>LogOut</Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          
           <Typography
             variant="h5"
             noWrap
@@ -123,28 +141,35 @@ function Navbar() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-           {pages.map((page) => (
-  <Button
-    key={page.label}
-    onClick={handleCloseNavMenu}
-    component={Link}
-    to={page.path}
-    sx={{ my: 2, color: 'white', display: 'block' }}>
-    {page.label}
-  </Button>
-))}
+            {(isLoggedIn ? pagesAuth : pagesGuest).map((page) => (
+              <Button
+                key={page.label}
+                onClick={handleCloseNavMenu}
+                component={Link}
+                to={page.path}
+                sx={{ my: 2, color: 'white', display: 'block' }}>
+                {page.label}
+              </Button>
+            ))}
+            {isLoggedIn ? (
+              <Button onClick={handleLogout} sx={{ my: 2, color: 'white', display: 'block' }} >LogOut</Button>
+            ):null}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
+           <Tooltip title="Open settings">
+  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+    {isLoggedIn? (
+      <Avatar alt="Remy Sharp" src="/Profile/pexels-photo-2379005.jpeg" />
+    ) : (
+      <Avatar alt="Guest" src="/static/images/avatar/1.jpg" />
+    )}
+  </IconButton>
+</Tooltip>
+
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
-
               anchorOrigin={{
                 vertical: 'top',
                 horizontal: 'right',

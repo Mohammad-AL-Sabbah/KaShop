@@ -12,11 +12,13 @@ import SecurityIcon from '@mui/icons-material/Security';
 function VerifyBasswords() {
   const {register , handleSubmit} = useForm();
   const verifyBasswords = async (data) => {
-    const response = await axios.patch("http://mytshop.runasp.net/api/Account/SendCode", data);
+    const response = await axios.patch(`${import.meta.env.VITE_BURL}/Account/SendCode`, data);
     console.log(response);
   }
 
     
+  const title = document.querySelector('title');
+  title.textContent = "Verify Bassword | E-commerce";
   return (
   <>
 
