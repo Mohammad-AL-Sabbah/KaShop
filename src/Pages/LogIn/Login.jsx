@@ -25,8 +25,6 @@ function LogIN() {
     try {
       setLoadings(true);
       const response = await axios.post(`${import.meta.env.VITE_BURL}/Account/Login`, data);
-      localStorage.setItem("Usertoken", response.data.token);
-
       if (response.status === 200) {
         toast.success('Login Successfully', {
           position: "top-center",
@@ -37,11 +35,13 @@ function LogIN() {
           draggable: true,
           theme: "light",
           transition: Bounce,
-        });
-
+        }
+      );
+      localStorage.setItem("Usertoken", response.data.token);
         setTimeout(() => {
           navigate('/');
         }, 1100);
+
       }
     } catch (error) {
       toast.error('Login failed. Email or password is incorrect.', {

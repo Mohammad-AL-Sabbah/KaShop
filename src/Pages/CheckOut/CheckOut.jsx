@@ -1,4 +1,3 @@
-import React from 'react'
 import { Box, Card, FormControl, Radio, RadioGroup, Typography } from '@mui/material'
 import styles from './CheckOut.module.css';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -30,7 +29,6 @@ const handlePay = async () => {
     if(paymentMethod == 'Visa'){
       window.location.href = response.data.url
     }
-console.log(response)
   
   } catch (error) {
     console.error("حدث خطأ أثناء الدفع:", error);

@@ -13,10 +13,14 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
-import Cart from '../../Pages/Cart/Cart';
-import { Logout } from '@mui/icons-material';
 
-const pagesGuest = [
+
+function Navbar() {
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+
+  const pagesGuest = [
   { label: 'Register', path: '/register' },
   { label: 'Login', path: '/login' },
 ];
@@ -25,12 +29,9 @@ const pagesAuth =  [
 ]
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout' ];
-
-function Navbar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-  const isLoggedIn = Boolean(localStorage.getItem('Usertoken'));
+  // const isLoggedIn = localStorage.getItem('Usertoken');
+  
+const isLoggedIn = localStorage.getItem("Usertoken") ? true : false;
 
   const handleLogout = () =>{
     localStorage.removeItem('Usertoken');
@@ -140,6 +141,10 @@ function Navbar() {
           >
             LOGO
           </Typography>
+
+          
+
+          
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {(isLoggedIn ? pagesAuth : pagesGuest).map((page) => (
               <Button
@@ -194,4 +199,4 @@ function Navbar() {
     </AppBar>
   );
 }
-export default Navbar;
+export default Navbar; 
